@@ -125,7 +125,6 @@ X/                                  # project root
 ```
 DGCALC tries to be a working, functional MDS, while being agnostic about the payload. 
 However, there are rules that facilitate project interoperability and modularity. 
-
 Group and project identifiers should be compatible with directory naming conventions used for decades in UNIX. 
 Informally, they should be "standard" names, using nothing nonstandard. 
 The project root must have the form `X`, where `X` is the identifier (the name) chosen for the project.
@@ -176,8 +175,7 @@ X/                                  # project root
 ```
 
 Commonly, `git` is used for version management, and the usual `git` project rules are then applied.
-This can be thought of as just another layer on top of DGCALC and CMake. 
-
+This can be thought of as just another layer on top of DGCALC and CMake.
 Another convention used in DGCALC is that a group is capitalized, as in  `MYGROUP`, 
 whereas a project is either lower case `myproject`, upper camel-case `MyProject`, camel-case `myProject`, or snake case `my_project` (preferably, one of the first two). 
 Again, this is only a convention. 
@@ -200,7 +198,7 @@ if you want `myproject` to belong to `MYGROUP`.
 You can use the `DGCALC` group if you wish, or do this in any directory on your system if you're just going to delete the files when you finish:
 ```bash
 # delete the project
--rm -rf myproject_project
+-rm -rf myproject
 ```
 The only reason you would work in a chosen group is if you actually want other projects to link to your project. Otherwise, it does not matter where you put it. 
 The choice is never set in stone.
@@ -243,27 +241,25 @@ You can, by all means, edit this file to suit your needs.
 > as you'll find out for yourself. 
 > In fact, all that `dg new X` does it execute `mkdir` and `cp` a handful of times; you can 
 > see precisely what it does if you open the file `$DGCALC_HOME/bin/dgcalcclt`. 
-> Its value is only in laying bare the minimal strucure DGCALC requires, to provide a constructive picture of a DGCALC project. 
+> Its value is only in laying bare the minimal structure DGCALC requires, to provide a constructive picture of a DGCALC project. 
 > Once you have projects you are already working on, the easiest way to start a new project is probably to copy one of your recent projects 
 > and modify it, which can be done manually in a few seconds.
 
-To make this blank file into the CMake file for `myproject`, the first step is to change the `PROJECT_FAMILY_NAME` to `myproject`.
-Next, choose a version number to begin from as your project develops.
-You can write the version as either a standard three-integer representation `"<major>.<minor>.<patch>"` or in a three-digit code `"mnp"`,
-where the three integers `m` major, `n` minor, and `p` patch number are concatenated.
-The latter format is for legacy support. The former format is recommended.
+To make this blank file into the CMake file for `myproject`, the first step is to change the `PROJECT_FAMILY_NAME` from `DGCALC` to `myproject`.
+Next, choose a version number to begin from as your project develops, say, "1.2.3", and change the `PROJECT_VERSION` from `1.0.0` to `1.2.3`.
+You can write the version as a standard three-integer representation `"<major>.<minor>.<patch>"`.
 
-Also choose a version name, `PROJECT_VERSION_NAME`,
+Similarly choose a version name, `PROJECT_VERSION_NAME`, 
 this helps facilitate changes to the project over time, particularly when the number of projects grows large. 
 Change the `PROJECT_VERSION_MONTH` to the current month,
-and the `PROJECT_CURRENT_YEAR` to the current year.
+and the `PROJECT_CURRENT_YEAR` to the current year, this is useful if you step away from the project and need to return to it later. 
 
 You should also change the language to the target language or languages, and set the version you wish to use. 
 
 After this, you can start building your project, writing tests, and running them from 
 your test bench (the file `main.c`). 
 
-TODO: link to more demoing.
+*TODO: link to more.*
 
 ### Typical User-facing CMake file
 
@@ -278,7 +274,7 @@ set(CMAKE_FORTRAN_STANDARD 90)
 # fixed form, C preprocessed, all REAL as double
 set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -ffixed-form -cpp -fdefault-real-8")
 set(PROJECT_FAMILY_NAME "CSRiemann")
-set(PROJECT_VERSION "040")
+set(PROJECT_VERSION "0.4.0")
 set(PROJECT_VERSION_NAME "NashvilleDolly")
 set(PROJECT_VERSION_MONTH "September")
 set(PROJECT_VERSION_YEAR "2026")
@@ -310,7 +306,7 @@ This user-facing CMake file does the following (we go through it line by line):
 - Defines the minimum version of CMake (3.24)
 - sets the project languages (C++ and Fortran)
 - sets the language standards used (20 and 90)
-- defines the project name, `CSRiemann`, the project version, `040`, and some other naming artifacts,
+- defines the project name, `CSRiemann`, the project version, `0.4.0`, and some other naming artifacts,
 - Defines a couple of *working rdirs*, called `_T` and `_I`, which will be visible in `main`, but only when working in the project, not in daughter projects. Typically, this functionality is for your testing code and testing support.
 In our experience, *you will always need tests*, there is no other reality.
 - Sets some parameters for accelerators (hardware features)
@@ -325,21 +321,22 @@ The remainder of the lines in the file is boilerplate that defines the project a
 ## Build Targets 
 
 Using the DGCALC MDS, you have several targets that you can run via CMake.
-- The project itself can be built and run as a serial program, in either `Debug` or `Release` modes. 
-- The project X can be compiled as a static library by choosing the target `X`. Once this is done, downstream projects can easily establish a dependency on the project via the static library.
-- The project can be compiled as a shared library by choosing the target `X<version>` (to find this target, run `dg what`). Once this is done, downstream projects can easily establish a dependency on the project via the shared library.
-- Parallelization via MPI is possible. Individual systems and users may require configuration, but once this is finished the MPI support is very easy to use. 
+- **Basic use.** The project itself can be built and run as a serial program, in either `Debug` or `Release` modes. 
+- **Library compilation and staging.** The project `X` can be compiled as a static library by choosing the target `X`. Once this is done, downstream projects can establish a dependency on the project via the static library. 
+The project can also be compiled as a shared library by choosing the target `X<version>` (to find this target, run `dg what`). Once this is done, downstream projects can easily establish a dependency on the project via the shared library.
+- **Parallelization via MPI.** Individual systems and users may require configuration, but once this step is completed, the MPI support is available. 
 The MPI library can be selected, and the program can be run via `dg run` (the `runbin` target), which bins output to the `OUTPUT_STEM` subfolder. 
 This is what is typically done, because parallel programs usually need to produce output in the file system and can rarely rely on standard output and error pipes. `runbin` will "bin" the output in a directory that the user can select (default: `output`). 
 This is recommended because it allows the run output directory to be cleaned between runs. (Which it is.)
 
 ## Usage at the command line
 
-The MDS provides streamlined use of CMake to build projects. 
-This is needed because some changes to projects (moved, removed, or renamed files) require 
-any daughter project to be reconfigured (to reset the cache CMake uses to speed up the build). 
-Running compiled code can also be streamlined via CMake. 
-These three operations (configure, build, run) can all be executed at the command line using the `dgcalcclt` tool, which we alias as `dg`.
+CMake is a powerful build system, and for this reason, using CMake to build projects can be tricky, complex, or even difficult. 
+The MDS provides a streamlined workflow for quickly building and linking projects.
+Running compiled code is also streamlined via CMake (particularly useful in the case of parallel process runs). 
+
+There are two basic steps to a build in CMake: configure and build/make.
+If we add running to this basic set of tasks, then the three operations (configure, build, run) can all be executed at the command line using the `dgcalcclt` tool, which we alias as `dg`.
 ```bash
 cd /some/path/GROUP/X_project/wrk/latest
 # configure the project
@@ -349,12 +346,17 @@ dg make
 # run the project and bin the file system output in `output` directory. 
 dg run
 ```
+> Some kinds of changes to a parent project (specifically moved, removed, or renamed files) require
+that a daughter project be reconfigured before they are visible. 
+> Other kinds of changes (edits to files) are immediately visible to all daughter projects.
+
 The command `run` is short for the target `runbin` which runs and bins output in a folder. 
 You can also do `dg runhere` to produce output in the working directory. 
 To instead run the job with the current directory as working directory, you can invoke `dg runhere`.
-NOTE: The directory `output` is cleaned automatically between runs.
-You can change the directory name by setting the variable `OUTPUT_STEM` to `data`, `out`, `data_run507`, or anything you choose, 
-by editing the user-facing CMake file.
+
+> The output directory (default: `output`) is cleaned automatically between runs.
+You can change the output directory name by setting the variable `OUTPUT_STEM` to `data`, `out`, `data_run507`, or anything you choose, 
+by adding this line to the user-facing CMake file, as in `set(OUTPUT_STEM "data")`.
 
 Projects that have specific targets defined can be run selecting different targets. 
 You can do experiment on the command line using the `what` command:
@@ -364,8 +366,7 @@ dg what
 dg make some_target
 # see what some_target does
 ```
-None of these operations perform anything extremely complicated; most of the work is performed by Kitware's CMake build tool, and really uses only a small fraction of CMake's capabilities. 
-Individual contributions by users who wish to improve these tools are most welcome. 
+Most of the work is performed by Kitware's CMake build tool, and really, DGCALC's CMake input files use only a small fraction of CMake's capabilities. 
 
 > The DGCALC system is not as sensitive to the full build tree (including all daughter projects) as other build systems you may have used. 
 > If files are re-named, moved, or deleted in a project X while you work on a daughter project of X, 
@@ -377,7 +378,7 @@ Individual contributions by users who wish to improve these tools are most welco
 
 ## Usage in IDEs
 
-### CLion
+### CLion (JetBrains IDE)
 
 The DGCALC MDS is compatible with the CLion IDE. 
 You can execute the `dg` CLT in a terminal window, or you can run your program via the friendly 'build' and 'run' buttons.
@@ -386,9 +387,9 @@ The GUI operation to perform the `dg conf` operation (a fresh cmake configure),
 you can go to the CMake pane, and inside the context menu of the Gear/Cogwheel icon, select Reset Cache and Reload Project. 
 Or, it is found in the menu bar under Tools > CMake > Reset Cache and Reload Project.
 
-### VSCode
+### VSCode (Microsoft IDE)
 
-If you use DGCALC in VSCode, and would like to help us out, please update this file with some documentation and submit a pull request.  
+If you use DGCALC in VSCode, and would like to help us out, please update this file with documentation and submit a pull request.  
 
 ## Work Tree
 
@@ -398,7 +399,7 @@ This service is provided by `git` via `git worktree`.
 The DGCALC user can select one of the branches of a project, say, `branch1` of a project called `X`,  
 by pointing the daughter project to `X:branch1`. 
 
-## DGCALC submodule dependency chart
+## DGCALC submodules
 
 At this time, DGCALC ships with several projects that can be thought of as a basic set of 
 examples, although they do useful things. The dependencies among DGCALC projects, where each line represents a project 
