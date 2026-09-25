@@ -12,9 +12,9 @@ along with a small set of computational libraries that demo MDS development.
 
 ## Getting Started
 
-Clone the repository along with submodules (DGCALC projects)
+Clone the repository along with submodules
 ```bash
-git clone --recurse-submodules https://github.com/LuciusSchoenbaum/DGCALC.git
+git clone --recurse-submodules https://github.com/DGCALC/DGCALC.git
 ```
 The MDS needs to know the location of these files in your environment. 
 You have a few options to get past this.
@@ -106,7 +106,7 @@ A project X has a structure that minimally:
 
 Minimally, the project tree must look like this:
 ```text
-X/                          # project root
+X/                                  # project root
 ├── ...                             # User code and artifacts
 ├── share/                          # Core application source code
 │   ├── static/                     # location for a static library compilation target
@@ -146,7 +146,7 @@ In practice, there are common artifacts and needs for all projects,
 and users will generally fall into some habitually generated structure that they feel comfortable with. 
 Here is one example, used in DGCALC submodules, for illustration. 
 ```text
-X/                          # project root
+X/                                  # project root
 ├── doc/                            # Documentation
 ├── share/                          # Core application source code
 │   ├── static/                     # location for a static library compilation target

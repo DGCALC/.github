@@ -1,0 +1,18 @@
+[submodule "Base/wrk/latest"]
+	path = Base/wrk/latest
+	url = https://github.com/DGCALC/Base
+[submodule "Types/wrk/latest"]
+	path = Types/wrk/latest
+	url = https://github.com/DGCALC/Types
+[submodule "Kyte/wrk/latest"]
+	path = Kyte/wrk/latest
+	url = https://github.com/DGCALC/Kyte
+[submodule "Kabbage/wrk/latest"]
+	path = Kabbage/wrk/latest
+	url = https://github.com/DGCALC/Kabbage
+[submodule "Scalar/wrk/latest"]
+	path = Scalar/wrk/latest
+	url = https://github.com/DGCALC/Scalar
+[submodule "Tennsix/wrk/latest"]
+	path = Tennsix/wrk/latest
+	url = https://github.com/DGCALC/Tennsix
