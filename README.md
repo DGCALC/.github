@@ -29,7 +29,7 @@ You may need to close and reopen a terminal window for this change to take effec
 
 Then you are done.
 
-If you wish to use the `dgcalcclt` command line tool (to aid with common tasks) then add the `bin` directory to your path:
+If you wish to use the `dgcalc` command line tool (to aid with common tasks) then add the `bin` directory to your path:
 ```bash
 $PATH="$PATH:$DGCALC_HOME/bin"
 export $PATH
@@ -436,12 +436,16 @@ Contributions from users are greatly appreciated.
 5. Open a Pull Request
 
 There is no plan for active development cycles in DGCALC. Instead, 
-the forecast is for DGCALC to exist as a stable MDS utility, "doing what it does forever". 
+DGCALC is forecasted to exist as a stable MDS utility, "doing what it does forever". 
 Therefore we prefer pull requests implement incremental changes and bug fixes. 
 Updates or improvements outside of this purview should be made in consultation with maintainers.
 
 We hope that DGCALC permits you, the user, to focus on the most difficult steps of software development,
 to understand your software stack, and to make meaningful revisions and analyses of your projects quickly and efficiently.
+
+> Are you a CMake developer interested in making a major contribution? You can volunteer to work 
+> on making the package linking via "<name>" or "<name>:<version>" keys recursive 
+> (est. developer time, perhaps 3-6 days). 
 
 ## License
 
@@ -454,6 +458,6 @@ Lucius Schoenbaum - lts0016@uah.edu
 ## Name (DGCALC)
 
 DGCALC was started in 2020-2021, and became dormant in 2023. 
-It is being released in 2026, after some revisions and improvements. 
+It is being released in 2026, after several revisions and improvements. 
 The name originally stood for: device-gate-circuit-architecture-language-computation. 
 
