@@ -4,7 +4,7 @@
 
 # DGCALC
 
-Welcome to the first (and original) `dgcalc` group. 
+Welcome to the first example of a `dgcalc` group. 
 Below you will find information for how to use this group and 
 other `dgcalc` groups, and learn how to create your own.
 
@@ -443,6 +443,10 @@ to understand your software stack, and to make meaningful revisions and analyses
 > Open task: 
 > make the package linking via "<name>" or "<name>:<version>" keys recursive 
 > (est. developer time, perhaps 3-6 days). 
+
+> Open task:
+> extend parallel run support to NCCL.
+
 
 ## License
 
