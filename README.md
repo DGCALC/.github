@@ -4,73 +4,76 @@
 
 # DGCALC
 
-Modular development system (MDS) with support for C, C++, and Fortran, via Kitware's [CMake](https://cmake.org/) build tool, 
-along with a small set of computational libraries that demo MDS development. 
+Welcome to the first (and original) `dgcalc` group. 
+Below you will find information for how to use this group and 
+other `dgcalc` groups, and learn how to create your own.
+
+## The `dgcalc` utility: a modular development system (MDS)
+
+The `dgcalc` utility is a modular development system (MDS) with support for C, C++, and Fortran. 
+Its main service is an organized, recursive use of Kitware's [CMake](https://cmake.org/) build tool. 
+It is interoperable with [git](https://git-scm.com/docs) and online repositories like GitHub, 
+but this interoperability is optional. 
 
 > We call it a **modular development system** (MDS) because it lacks all features of a full-blown **package management system** (PMS). 
 > However, an MDS has features similar to a PMS, and can be thought of as a lightweight or "featherweight" PMS.
 
+To see `dgcalc` in action, take a look around the following groups: 
+* [DGCALC](https://github.com/DGCALC/DGCALC) (this group)
+* [SPGEOMESH](https://github.com/SPGEOMESH/SPGEOMESH)
+* [SPECTRUM-MHD](https://github.com/SPECTRUM-MHD/SPECTRUM-MHD)
+
 ## Getting Started
 
-Clone the repository along with submodules
-```bash
-git clone --recurse-submodules https://github.com/DGCALC/DGCALC.git
-```
-The MDS needs to know the location of these files in your environment. 
-You have a few options to get past this.
-- You can place the root directory for the package in your `$HOME`, as in `$HOME/DGCALC`.
-- You can set an environment variable `DGCALC_HOME` equal to the location you wish to place DGCALC.
-For example, add to your shell environment `rc` file (e.g., `.bashrc`)
-```bash
-export DGCALC_HOME="/some/path/DGCALC"
-```
-You may need to close and reopen a terminal window for this change to take effect, or execute a `src` command.
-- You can set `LOCAL_HOME` in your user-facing CMake file `CMakelists.txt`. We recommend one of the previous two options.
+### To install
 
-Then you are done.
-
-If you wish to use the `dgcalc` command line tool (to aid with common tasks) then add the `bin` directory to your path:
+You need to install the `dgcalc` command line tool. 
+This tool is implemented as a Python package ([link](https://pypi.org/project/dgcalc/)). 
+Check you are in a Python environment with version 3.9 or higher. Then:
 ```bash
-$PATH="$PATH:$DGCALC_HOME/bin"
-export $PATH
-# optional, for ease of typing commands
-alias dg=dgcalcclt
+pip install dgcalc
 ```
-We prefer `dg` over `dgcalcclt` but the command can be modified if necessary 
-for the user's system environment. 
-
-### TL;DR
-
-If you want a basic setup quickly, make these modifications to your environment:
+If you ever need to upgrade:
 ```bash
-# DGCALC STUFF:
-export DGCALC_HOME="/some/path/DGCALC"
-$PATH="$PATH:$DGCALC_HOME/bin"
-alias dg=dgcalcclt
+pip install -U dgcalc
 ```
-Then re-source your terminal with something like:
+> Unfortunately, there is no `pip upgrade <name>` command.
+> Instead use `pip install -U <name>`.
+
+If you prefer the explicit over shorthand `U`:
 ```bash
-src /.bashrc
+pip install --upgrade dgcalc
 ```
-Then, remember to keep all your groups in the same directory with the DGCALC home directory, to avoid any further fuss:
-```text
-.                          
-├── DGCALC/                     
-├── MYGROUP/       
-├── ANOTHERGROUP/                             
- ...etc.
+Once you install you should see output from the command line, for example
+```bash
+dgcalc -v
+# prints version info
 ```
-After that, you can pass on to more interesting things. 
+To uninstall (remove entirely from your system):
+```bash
+pip uninstall dgcalc
+```
+
+### If your Python environment is protected
+
+On a system where Python is protected, 
+and you do not wish to take the steps to set up a 
+virtual Python environment yourself, 
+you can use the [dgcalc installer](https://github.com/DGCALC/dgcalc_installer). 
+
+> ⚠️ Warning: work in progress.
 
 ## Foundations: Groups and Projects
 
-Like all software, the MDS works by following rules and using abstractions. 
-At this time,`DGCALC` is an MDS, but it is also a group of software projects. 
-That is, from its own perspective, `DGCALC` is itself an example of a set or cluster of "projects". 
+There are two parts, so far, `dgcalc`, and `DGCALC`.  `dgcalc` is an MDS, but `DGCALC` a group of software projects. 
+That is, `DGCALC` is an example of a set or cluster of "projects". 
 We can call such a cluster a **group** and refer to their elements as **projects**. 
 These two concepts are the foundation of this particular MDS.
 
-But what *is* a group? One idea is that projects in a group are more likely depend upon one another, 
+Like all software, the MDS works by following rules and defining abstractions. 
+But on a more basic level, what *is* a group? What *is* a project? 
+
+One idea is that projects in a group are more likely depend upon one another, 
 or to combine together to form a whole. Or, alternatively, they 
 could be designed around a theme, such as a problem domain, a development team, 
 a long term goal, etc. A group can exist for any of these reasons. The only constant is that it is always something larger than an individual project.
@@ -123,7 +126,8 @@ X/                                  # project root
       │
       └── ...                       # User code (other work trees)
 ```
-DGCALC tries to be a working, functional MDS, while being agnostic about the payload. 
+DGCALC tries to be a working, functional MDS, while being agnostic about the payload (the source code, 
+the test code, and the project tree). 
 However, there are rules that facilitate project interoperability and modularity. 
 Group and project identifiers should be compatible with directory naming conventions used for decades in UNIX. 
 Informally, they should be "standard" names, using nothing nonstandard. 
@@ -135,9 +139,8 @@ but this is not strictly enforced; all that really happens is the header code ro
 Finally, the directory names `wrk`, `src`, `inc`, `pkg`, `share`, `static`, `lib`, `latest` must be used as shown above.
 These establish the consistent skeletal outline of a project structure. 
 Other than these rules, there are no conditions set by DGCALC for the project format. 
-The rest is all completely up to the user. 
-
-Unless, that is, we forgot something.
+The rest is up to the user (or team of users). The remaining project structure 
+may vary from project to project, or from group to group. 
 
 ## Typical Project Structure
 
@@ -191,7 +194,7 @@ whose version management is typically managed by `git`, but can be managed by an
 
 You can create a blank project with 
 ```bash
-dg new myproject
+dgcalc new myproject
 ```
 This generates the "minimal project structure" in the directory where you run the file - this should be a "group" directory, say, `MYGROUP`, 
 if you want `myproject` to belong to `MYGROUP`. 
@@ -217,8 +220,7 @@ set(PROJECT_VERSION_NAME "DataBoundary")
 set(PROJECT_VERSION_MONTH "September")
 set(PROJECT_VERSION_YEAR "2026")
 set(PROJECT_WORKING_RDIRS "_T" "_I")
-# Release, Debug
-set(PROJECT_BUILD_TYPE Debug)
+set(PROJECT_BUILD_TYPE Debug) # Release, Debug
 set(ACCEL "") # "Cuda", "Metal", "" (none)
 set(ACCEL_DEPENDENCIES "") # cuBLAS, cuRAND, ...
 set(ACCEL_INSTALL_DIR "/usr/local") # /usr/local, $ENV{CUDA_HOME}, $ENV{METAL_HOME}, ...
@@ -227,23 +229,16 @@ set(DGCALC_DEPENDENCY_TEST "")
 set(DGCALC_DEPENDENCY_SRC ${DGCALC_DEPENDENCY_TEST} "")
 set(DGCALC_DEPENDENCY_LIB "")
 
-include($ENV{DGCALC_HOME}/src/dgcalc.1.cmake)
+execute_process(COMMAND dgcalc source 1 OUTPUT_VARIABLE SOURCE1_CODE)
+cmake_language(EVAL CODE "${SOURCE1_CODE}")
 set(PROJECT_NAME "${PROJECT_FAMILY_NAME}${PROJECT_VERSION}${PROJECT_VERSION_NAME}_${PROJECT_VERSION_MONTH}${PROJECT_VERSION_YEAR}")
 project(${PROJECT_NAME} VERSION ${PROJECT_VERSION} LANGUAGES ${PROJECT_LANGUAGES})
-include($ENV{DGCALC_HOME}/src/dgcalc.2.cmake)
+execute_process(COMMAND dgcalc source 2 OUTPUT_VARIABLE SOURCE2_CODE)
+cmake_language(EVAL CODE "${SOURCE2_CODE}")
 ```
 
 This is not intended to look like something perfect, but instead like something you can edit. 
 You can, by all means, edit this file to suit your needs. 
-
-> We used the command line tool `dg new X` to create this file and demo the process, 
-> but `dg new X` does not provide a lot of the most useful structure that arises in practice, 
-> as you'll find out for yourself. 
-> In fact, all that `dg new X` does it execute `mkdir` and `cp` a handful of times; you can 
-> see precisely what it does if you open the file `$DGCALC_HOME/bin/dgcalcclt`. 
-> Its value is only in laying bare the minimal structure DGCALC requires, to provide a constructive picture of a DGCALC project. 
-> Once you have projects you are already working on, the easiest way to start a new project is probably to copy one of your recent projects 
-> and modify it, which can be done manually in a few seconds.
 
 To make this blank file into the CMake file for `myproject`, the first step is to change the `PROJECT_FAMILY_NAME` from `DGCALC` to `myproject`.
 Next, choose a version number to begin from as your project develops, say, "1.2.3", and change the `PROJECT_VERSION` from `1.0.0` to `1.2.3`.
@@ -259,7 +254,7 @@ You should also change the language to the target language or languages, and set
 After this, you can start building your project, writing tests, and running them from 
 your test bench (the file `main.c`). 
 
-*TODO: link to more.*
+*TODO: add more documentation.*
 
 ### Typical User-facing CMake file
 
@@ -286,7 +281,7 @@ set(DEPENDENCY_LIB_TYPE "s") # shared (s) or static (a)
 set(DGCALC_DEPENDENCY_TEST "")
 set(DGCALC_DEPENDENCY_SRC ${DGCALC_DEPENDENCY_TEST} "Base" "Types" "Kyte" "Kabbage" "Scalar" "Tennsix" "Fields")
 set(DGCALC_DEPENDENCY_LIB "")
-set(GROUPS "GEOMESH")
+set(GROUPS "SPGEOMESH")
 set(GEOMESH_DEPENDENCY_TEST "")
 set(GEOMESH_DEPENDENCY_SRC ${GEOMESH_DEPENDENCY_TEST} "Kiwi")
 set(GEOMESH_DEPENDENCY_LIB "CubeSphere")
@@ -297,10 +292,12 @@ set(NUM_PROCESSES 6)
 #set(OUTPUT_STDOUT_FILE)
 #set(OUTPUT_STDOUT_TERMINAL)
 
-include($ENV{DGCALC_HOME}/src/dgcalc.1.cmake)
+execute_process(COMMAND dgcalc source 1 OUTPUT_VARIABLE SOURCE1_CODE)
+cmake_language(EVAL CODE "${SOURCE1_CODE}")
 set(PROJECT_NAME "${PROJECT_FAMILY_NAME}${PROJECT_VERSION}${PROJECT_VERSION_NAME}_${PROJECT_VERSION_MONTH}${PROJECT_VERSION_YEAR}")
 project(${PROJECT_NAME} VERSION ${PROJECT_VERSION} LANGUAGES ${PROJECT_LANGUAGES})
-include($ENV{DGCALC_HOME}/src/dgcalc.2.cmake)
+execute_process(COMMAND dgcalc source 2 OUTPUT_VARIABLE SOURCE2_CODE)
+cmake_language(EVAL CODE "${SOURCE2_CODE}")
 ```
 This user-facing CMake file does the following (we go through it line by line):
 - Defines the minimum version of CMake (3.24)
@@ -331,8 +328,8 @@ This is recommended because it allows the run output directory to be cleaned bet
 
 ## Usage at the command line
 
-CMake is a powerful build system, and for this reason, using CMake to build projects can be tricky, complex, or even difficult. 
-The MDS provides a streamlined workflow for quickly building and linking projects.
+CMake is a powerful build system, and for this reason, using CMake to build projects can be tricky, complex, and/or difficult. 
+The `dgcalc` MDS provides a streamlined workflow for quickly building and linking projects.
 Running compiled code is also streamlined via CMake (particularly useful in the case of parallel process runs). 
 
 There are two basic steps to a build in CMake: configure and build/make.
@@ -376,7 +373,7 @@ Most of the work is performed by Kitware's CMake build tool, and really, DGCALC'
 > ```
 > in the project's working directory (usually `wrk/latest`).
 
-## Usage in IDEs
+## Usage in Integrated Developer Environments (IDEs)
 
 ### CLion (JetBrains IDE)
 
@@ -443,8 +440,8 @@ Updates or improvements outside of this purview should be made in consultation w
 We hope that DGCALC permits you, the user, to focus on the most difficult steps of software development,
 to understand your software stack, and to make meaningful revisions and analyses of your projects quickly and efficiently.
 
-> Are you a CMake developer interested in making a major contribution? You can volunteer to work 
-> on making the package linking via "<name>" or "<name>:<version>" keys recursive 
+> Open task: 
+> make the package linking via "<name>" or "<name>:<version>" keys recursive 
 > (est. developer time, perhaps 3-6 days). 
 
 ## License
@@ -458,6 +455,6 @@ Lucius Schoenbaum - lts0016@uah.edu
 ## Name (DGCALC)
 
 DGCALC was started in 2020-2021, and became dormant in 2023. 
-It is being released in 2026, after several revisions and improvements. 
+It is being released in 2026, after various revisions and improvements. 
 The name originally stood for: device-gate-circuit-architecture-language-computation. 
 
