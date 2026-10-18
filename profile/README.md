@@ -1,16 +1,13 @@
 
 
+> Welcome to an example of a `dgcalc` group.
+> Don't know what `dgcalc` is?
+> Visit [here](https://github.com/DGCALC/dgcalc) to find information
+> for how to use this group and other `dgcalc` groups.
 
-
-# DGCALC
-
-> Welcome to an example of a `dgcalc` group. 
-> Don't know what `dgcalc` is? 
-> Visit [here](https://github.com/LuciusSchoenbaum/dgcalc) to find information 
-> for how to use this group and other `dgcalc` groups. 
 
 DGCALC consists of several projects that can be thought of as a basic set of 
-examples of `dgcalc` organization, although they do useful things. 
+examples of `dgcalc` organization, although they can do useful things. 
 
 Here are informal descriptions of these projects: 
 - Base is a small basket of all-encompassing (mainly) compile-time resources. 
@@ -31,7 +28,7 @@ but no projects in the same line or any projects in lower lines is:
 {Scalar, Kabbage}
 {Tennsix}
 ```
-These projects were created in 2021-2022 and have been dormant since 2023.
+These projects were created in 2021-2022 and have been largely inactive since 2023.
 
 ## License and Maintainers
 
