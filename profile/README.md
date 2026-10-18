@@ -1,8 +1,7 @@
 `dgcalc` is a modular development system/utility for C, C++, and Fortran. 
 Its source code is hosted [here](https://github.com/DGCALC/dgcalc). 
 
-DGCALC consists of several projects that can be thought of as a basic set of 
-examples of `dgcalc`  organization, although they can do useful things. 
+DGCALC, on the other hand, is a group of several projects that can be thought of as a basic example of `dgcalc`  modular project organization, although they can do useful things. 
 
 - Base is a small basket of all-encompassing (mainly) compile-time resources. 
 - Kyte is for industrial strength bit-fiddling. 
