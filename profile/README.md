@@ -1,15 +1,16 @@
+[dgcalc](https://github.com/DGCALC/dgcalc) is a modular development system/utility for C, C++, and Fortran. 
+Its source code is hosted here. 
 
 DGCALC consists of several projects that can be thought of as a basic set of 
 examples of [dgcalc](https://github.com/DGCALC/dgcalc)  organization, although they can do useful things. 
 
-Here are informal descriptions of these projects: 
 - Base is a small basket of all-encompassing (mainly) compile-time resources. 
 - Kyte is for industrial strength bit-fiddling. 
 - Types is like Base, but for more development of the type system (again, compile-time resources). 
 - Types allows dependency on Kyte, and can be thought of as a continuation of Base. 
 - Scalar is the master project for scalar classes. 
 - Kabbage is a basket of basic algorithms that (1) don't use scalars (2) are needed later, as well as problems that don't require special data structures to describe, e.g., sorting. 
-- Tennsix is a project for linear algebra based on Scalar types. 
+- Tennsix is a project serving linear algebra based on Scalar types. 
 
 The dependencies among DGCALC projects, where each line represents a project
 that depends on at least one project in the previous line,
@@ -21,7 +22,8 @@ but no projects in the same line or any projects in lower lines is:
 {Scalar, Kabbage}
 {Tennsix}
 ```
-These projects were created in 2021-2022 and have been largely inactive since 2023.
+These projects were created in 2021-2022 and have been largely inactive since 2023, 
+while the `dgcalc` utility is currently under active development. 
 
 ## License and Maintainers
 
